@@ -1,49 +1,76 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#0b1522" />
-    <title>Puffin Platform Panic!</title>
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
-    <main class="app">
-      <h1 class="title">PUFFIN PLATFORM PANIC!</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="theme-color" content="#0B1C2C" />
+  <title>Grand Banks Blaster: Kitchen Party Defense</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <main id="app">
+    <section id="game-shell" aria-label="Game area">
+      <canvas id="game-canvas" width="1080" height="1920" aria-label="Grand Banks Blaster playfield"></canvas>
 
-      <div class="meta-row">
-        <div class="tagline">Retro offshore mayhem. Keep Production, Safety, and Morale alive.</div>
-        <div class="best">Best Score: <span id="bestScore">0</span></div>
-      </div>
+      <header id="hud" class="glass panel hidden" aria-live="polite">
+        <div class="hud-item"><span>Score</span><strong id="hud-score">0</strong></div>
+        <div class="hud-item"><span>High</span><strong id="hud-high">0</strong></div>
+        <div class="hud-item"><span>Wave</span><strong id="hud-wave">1</strong></div>
+        <div class="hud-item"><span>Integrity</span><strong id="hud-lives">3</strong></div>
+        <div class="hud-item"><span>Combo</span><strong id="hud-combo">x1</strong></div>
+      </header>
 
-      <section class="canvas-wrap" aria-label="Game viewport">
-        <canvas id="gameCanvas" width="320" height="180"></canvas>
+      <section id="start-screen" class="overlay visible" role="dialog" aria-modal="true">
+        <div class="panel glass hero-card">
+          <h1>GRAND BANKS BLASTER</h1>
+          <h2>Kitchen Party Defense</h2>
+          <p>Hold the line on the offshore deck. Blast back the food raid before it reaches topsides.</p>
+          <button id="start-btn" class="btn btn-primary">START GAME</button>
+          <button id="open-settings-start" class="btn btn-secondary">Settings</button>
+        </div>
       </section>
 
-      <section class="controls" aria-label="Game controls">
-        <button id="startBtn" type="button">Start Shift</button>
-        <button id="pauseBtn" type="button">Pause / Resume</button>
-        <button id="restartBtn" type="button">Restart</button>
+      <section id="pause-overlay" class="overlay" role="dialog" aria-modal="true">
+        <div class="panel glass">
+          <h3>Paused</h3>
+          <button id="resume-btn" class="btn btn-primary">Resume</button>
+          <button id="restart-btn-pause" class="btn btn-secondary">Restart Run</button>
+          <button id="open-settings-pause" class="btn btn-secondary">Settings</button>
+        </div>
       </section>
 
-      <section class="actions" aria-label="Action buttons">
-        <button class="action-btn" data-action="fixEquipment" data-label="Fix Equipment" type="button">Fix Equipment</button>
-        <button class="action-btn" data-action="clearIceberg" data-label="Clear Iceberg" type="button">Clear Iceberg</button>
-        <button class="action-btn" data-action="brewCoffee" data-label="Brew Coffee" type="button">Brew Coffee</button>
-        <button class="action-btn" data-action="calmCrew" data-label="Calm Crew" type="button">Calm Crew</button>
-        <button class="action-btn" data-action="shooPuffins" data-label="Shoo Puffins" type="button">Shoo Puffins</button>
-        <button class="action-btn" data-action="backupGenerator" data-label="Start Backup Generator" type="button">Start Backup Generator</button>
+      <section id="game-over-overlay" class="overlay" role="dialog" aria-modal="true">
+        <div class="panel glass">
+          <h3>Deck Lost</h3>
+          <p id="game-over-text">Final Score: 0</p>
+          <button id="restart-btn-over" class="btn btn-primary">Play Again</button>
+          <button id="back-title-btn" class="btn btn-secondary">Back to Title</button>
+        </div>
       </section>
 
-      <section class="settings" aria-label="Settings">
-        <button id="soundToggle" type="button">Sound: On</button>
-        <button id="crtToggle" type="button">CRT: On</button>
-        <button id="resetDataBtn" type="button">Reset Data</button>
+      <section id="settings-panel" class="overlay" role="dialog" aria-modal="true">
+        <div class="panel glass">
+          <h3>Settings</h3>
+          <label class="toggle-row" for="sound-toggle">
+            <span>Sound</span>
+            <input id="sound-toggle" type="checkbox" checked />
+          </label>
+          <button id="reset-high-score" class="btn btn-warning">Reset High Score</button>
+          <button id="close-settings" class="btn btn-secondary">Close</button>
+        </div>
       </section>
-    </main>
 
-    <script type="module" src="js/main.js"></script>
-  </body>
+      <section id="boss-warning" class="warning-banner" aria-live="assertive">KITCHEN PARTY BUSKER APPROACHING</section>
+
+      <section id="mobile-controls" class="panel glass hidden" aria-label="Touch controls">
+        <button id="ctrl-left" class="ctrl-btn" aria-label="Move left">◀</button>
+        <button id="ctrl-fire" class="ctrl-btn fire" aria-label="Fire">FIRE</button>
+        <button id="ctrl-right" class="ctrl-btn" aria-label="Move right">▶</button>
+        <button id="ctrl-pause" class="ctrl-btn pause" aria-label="Pause">II</button>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
 </html>

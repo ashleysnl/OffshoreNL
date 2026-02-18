@@ -1,51 +1,56 @@
-const KEY = 'puffin-platform-panic.save.v1';
-
-const DEFAULTS = {
-  bestScore: 0,
-  settings: {
-    sound: true,
-    crt: true
-  }
+const KEYS = {
+  highScore: 'gbb_high_score',
+  settings: 'gbb_settings'
 };
 
-function cloneDefaults() {
-  return {
-    bestScore: DEFAULTS.bestScore,
-    settings: {
-      sound: DEFAULTS.settings.sound,
-      crt: DEFAULTS.settings.crt
-    }
-  };
-}
+const defaultSettings = {
+  soundEnabled: true
+};
 
-function safeParse(raw) {
+function safeRead(key, fallback) {
   try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
     return JSON.parse(raw);
   } catch {
-    return null;
+    return fallback;
   }
 }
 
-export function loadData() {
-  const raw = localStorage.getItem(KEY);
-  if (!raw) return cloneDefaults();
-  const parsed = safeParse(raw);
-  if (!parsed || typeof parsed !== 'object') return cloneDefaults();
-
-  return {
-    bestScore: Number(parsed.bestScore) || 0,
-    settings: {
-      sound: parsed.settings?.sound !== false,
-      crt: parsed.settings?.crt !== false
-    }
-  };
+function safeWrite(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Ignore write failures in private mode or strict environments.
+  }
 }
 
-export function saveData(data) {
-  localStorage.setItem(KEY, JSON.stringify(data));
-}
+export const Storage = {
+  getHighScore() {
+    const value = Number(safeRead(KEYS.highScore, 0));
+    return Number.isFinite(value) ? value : 0;
+  },
 
-export function resetData() {
-  localStorage.removeItem(KEY);
-  return cloneDefaults();
-}
+  setHighScore(score) {
+    safeWrite(KEYS.highScore, Math.max(0, Math.floor(score)));
+  },
+
+  resetHighScore() {
+    safeWrite(KEYS.highScore, 0);
+  },
+
+  getSettings() {
+    const value = safeRead(KEYS.settings, defaultSettings);
+    return {
+      ...defaultSettings,
+      ...(value && typeof value === 'object' ? value : {})
+    };
+  },
+
+  setSettings(settings) {
+    safeWrite(KEYS.settings, {
+      ...defaultSettings,
+      ...settings
+    });
+  }
+};
