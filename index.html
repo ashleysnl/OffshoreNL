@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Puffin Platform Panic!</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1 class="title">PUFFIN PLATFORM PANIC!</h1>
+
+      <div class="meta-row">
+        <div class="tagline">Retro offshore mayhem. Keep Production, Safety, and Morale alive.</div>
+        <div class="best">Best Score: <span id="bestScore">0</span></div>
+      </div>
+
+      <section class="canvas-wrap" aria-label="Game viewport">
+        <canvas id="gameCanvas" width="320" height="180"></canvas>
+      </section>
+
+      <section class="controls" aria-label="Game controls">
+        <button id="startBtn" type="button">Start Shift</button>
+        <button id="pauseBtn" type="button">Pause / Resume</button>
+        <button id="restartBtn" type="button">Restart</button>
+      </section>
+
+      <section class="actions" aria-label="Action buttons">
+        <button class="action-btn" data-action="fixEquipment" data-label="Fix Equipment" type="button">Fix Equipment</button>
+        <button class="action-btn" data-action="clearIceberg" data-label="Clear Iceberg" type="button">Clear Iceberg</button>
+        <button class="action-btn" data-action="brewCoffee" data-label="Brew Coffee" type="button">Brew Coffee</button>
+        <button class="action-btn" data-action="calmCrew" data-label="Calm Crew" type="button">Calm Crew</button>
+        <button class="action-btn" data-action="shooPuffins" data-label="Shoo Puffins" type="button">Shoo Puffins</button>
+        <button class="action-btn" data-action="backupGenerator" data-label="Start Backup Generator" type="button">Start Backup Generator</button>
+      </section>
+
+      <section class="settings" aria-label="Settings">
+        <button id="soundToggle" type="button">Sound: On</button>
+        <button id="crtToggle" type="button">CRT: On</button>
+        <button id="resetDataBtn" type="button">Reset Data</button>
+      </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
