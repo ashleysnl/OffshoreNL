@@ -11,6 +11,7 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -28,11 +29,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-right: max(12px, env(safe-area-inset-right));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  padding-left: max(12px, env(safe-area-inset-left));
 }
 
 .app {
-  width: min(96vw, 920px);
+  width: min(96vw, 940px);
   display: grid;
   gap: 10px;
 }
@@ -77,12 +81,14 @@ body {
 }
 
 #gameCanvas {
-  width: min(96vw, calc((100vh - 300px) * (16 / 9)), 880px);
+  width: min(96vw, calc((100dvh - 330px) * (16 / 9)), 900px);
+  max-height: 66dvh;
   aspect-ratio: 16 / 9;
   display: block;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   background: #000;
+  touch-action: none;
 }
 
 .controls,
@@ -108,9 +114,11 @@ button {
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
-  padding: 10px 12px;
+  padding: 12px 14px;
   cursor: pointer;
-  min-height: 44px;
+  min-height: 48px;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 button:active {
@@ -146,12 +154,30 @@ button:disabled {
   line-height: 1.1;
 }
 
+@media (max-width: 860px) {
+  #gameCanvas {
+    width: 96vw;
+    max-height: 60dvh;
+  }
+}
+
 @media (max-width: 720px) {
   .actions {
     grid-template-columns: 1fr;
   }
 
-  #gameCanvas {
-    width: 96vw;
+  .controls,
+  .settings {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .tagline {
+    font-size: 12px;
   }
 }

@@ -22,6 +22,7 @@ audio.setEnabled(store.settings.sound);
 renderer.setCRT(store.settings.crt);
 
 let last = performance.now();
+let prevState = game.state;
 
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
@@ -37,6 +38,11 @@ function refreshSettingsUI() {
   bestScoreEl.textContent = String(store.bestScore);
 }
 
+function updateThemeState() {
+  const shouldPlay = store.settings.sound && game.state === 'running' && !document.hidden;
+  audio.setThemePlaying(shouldPlay);
+}
+
 function formatTime(sec) {
   const s = Math.floor(sec);
   const m = Math.floor(s / 60);
@@ -47,29 +53,29 @@ function formatTime(sec) {
 function drawWorld(dt, nowSec) {
   renderer.beginFrame(dt);
   renderer.clear(0);
-  renderer.drawSky();
+  renderer.drawSky(nowSec);
   renderer.drawOcean();
 
-  renderer.drawSprite('rig', 120, 96, 2);
+  renderer.drawRigComplex(nowSec);
 
   const flap = Math.floor(nowSec * 8) % 2 === 0 ? 'puffinA' : 'puffinB';
   const hasPuffinEvent = game.activeEvents.some((e) => e.id === 'puffins');
   const puffinCount = hasPuffinEvent ? 4 : 2;
 
   for (let i = 0; i < puffinCount; i += 1) {
-    const px = 102 + i * 24 + Math.sin(nowSec * 2 + i) * 4;
-    const py = 84 + Math.cos(nowSec * 2.6 + i * 0.8) * 3;
+    const px = 114 + i * 22 + Math.sin(nowSec * 2 + i) * 4;
+    const py = 88 + Math.cos(nowSec * 2.6 + i * 0.8) * 3;
     renderer.drawSprite(flap, Math.floor(px), Math.floor(py), 2);
   }
 
   const icebergActive = game.activeEvents.some((e) => e.id === 'iceberg');
   if (icebergActive) {
-    const ix = 30 + Math.sin(nowSec * 1.8) * 3;
-    renderer.drawSprite('iceberg', Math.floor(ix), 122, 3);
+    const ix = 24 + Math.sin(nowSec * 1.8) * 3;
+    renderer.drawSprite('iceberg', Math.floor(ix), 126, 2);
   }
 
-  const heliX = 230 + Math.sin(nowSec * 0.7) * 42;
-  const heliY = 30 + Math.sin(nowSec * 1.4) * 4;
+  const heliX = 228 + Math.sin(nowSec * 0.7) * 44;
+  const heliY = 29 + Math.sin(nowSec * 1.4) * 4;
   renderer.drawSprite('helicopter', Math.floor(heliX), Math.floor(heliY), 1);
 
   const hasFog = game.activeEvents.some((e) => e.id === 'fog');
@@ -179,6 +185,12 @@ function loop(now) {
     handleGameOver();
   }
 
+  if (game.state !== prevState && game.state === 'gameover') {
+    audio.play('gameover');
+  }
+  prevState = game.state;
+
+  updateThemeState();
   requestAnimationFrame(loop);
 }
 
@@ -186,18 +198,21 @@ startBtn.addEventListener('click', () => {
   audio.unlock();
   game.start();
   audio.play('button');
+  updateThemeState();
 });
 
 pauseBtn.addEventListener('click', () => {
   if (game.state === 'start' || game.state === 'gameover') return;
   game.togglePause();
   audio.play('button');
+  updateThemeState();
 });
 
 restartBtn.addEventListener('click', () => {
   audio.unlock();
   game.start();
   audio.play('button');
+  updateThemeState();
 });
 
 soundToggleBtn.addEventListener('click', () => {
@@ -207,6 +222,7 @@ soundToggleBtn.addEventListener('click', () => {
   refreshSettingsUI();
   audio.unlock();
   audio.play('button');
+  updateThemeState();
 });
 
 crtToggleBtn.addEventListener('click', () => {
@@ -225,6 +241,7 @@ resetDataBtn.addEventListener('click', () => {
   persist();
   audio.unlock();
   audio.play('button');
+  updateThemeState();
 });
 
 for (const btn of actionButtons) {
@@ -240,22 +257,21 @@ window.addEventListener('keydown', (event) => {
       game.togglePause();
     }
     audio.play('button');
+    updateThemeState();
   }
 });
 
-window.addEventListener('pointerdown', () => audio.unlock(), { once: true });
+window.addEventListener('pointerdown', () => {
+  audio.unlock();
+  updateThemeState();
+}, { once: true });
+
+document.addEventListener('visibilitychange', () => {
+  updateThemeState();
+});
 
 refreshSettingsUI();
 requestAnimationFrame((ts) => {
   last = ts;
   requestAnimationFrame(loop);
 });
-
-// Game over tone is fired on state transition.
-let prevState = game.state;
-setInterval(() => {
-  if (game.state !== prevState && game.state === 'gameover') {
-    audio.play('gameover');
-  }
-  prevState = game.state;
-}, 60);

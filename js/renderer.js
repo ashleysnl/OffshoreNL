@@ -44,13 +44,20 @@ export class Renderer {
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
-  drawSky() {
+  drawSky(time = 0) {
     const bands = [4, 4, 3, 3, 2, 2, 1, 1];
     const bandHeight = Math.floor((this.height * 0.62) / bands.length);
     for (let i = 0; i < bands.length; i += 1) {
       this.ctx.fillStyle = PALETTE[bands[i]];
       this.ctx.fillRect(0, i * bandHeight, this.width, bandHeight + 1);
     }
+
+    // tiny pixel cloud wisps for depth
+    const cloudY = 18 + Math.sin(time * 0.12) * 2;
+    this.drawRect(35, Math.floor(cloudY), 18, 2, 4);
+    this.drawRect(37, Math.floor(cloudY) - 1, 10, 1, 4);
+    this.drawRect(198, Math.floor(cloudY) + 7, 23, 2, 4);
+    this.drawRect(201, Math.floor(cloudY) + 6, 15, 1, 4);
   }
 
   drawOcean() {
@@ -64,6 +71,9 @@ export class Renderer {
         this.drawSprite(tile, Math.floor(x - this.oceanOffset), y, 1, false);
       }
     }
+
+    this.ctx.fillStyle = 'rgba(231, 242, 248, 0.09)';
+    this.ctx.fillRect(0, yStart - 2, this.width, 2);
   }
 
   drawSprite(sprite, x, y, scale = 1, fromTable = true) {
@@ -81,6 +91,34 @@ export class Renderer {
         this.ctx.fillRect(x + px * scale, y + py * scale, scale, scale);
       }
     }
+  }
+
+  drawRigComplex(time = 0) {
+    const baseX = 92;
+    const baseY = 86;
+
+    // Rear legs
+    this.drawSprite('rigLeg', baseX + 6, baseY + 30, 2);
+    this.drawSprite('rigLeg', baseX + 76, baseY + 30, 2);
+
+    // Deck and structures
+    this.drawSprite('rigDeck', baseX, baseY + 14, 2);
+    this.drawSprite('rigTower', baseX + 24, baseY - 16, 2);
+    this.drawSprite('rigTower', baseX + 64, baseY - 19, 2);
+
+    // Front legs
+    this.drawSprite('rigLeg', baseX + 24, baseY + 32, 2);
+    this.drawSprite('rigLeg', baseX + 58, baseY + 32, 2);
+
+    // Cranes
+    this.drawSprite('rigCraneArm', baseX - 12, baseY + 4, 2);
+    this.drawSprite('rigCraneArm', baseX + 124, baseY - 18, 2);
+
+    // Flare stack with animated flame
+    this.drawSprite('rigFlare', baseX + 124, baseY - 26, 2);
+    const flicker = Math.sin(time * 18) > 0 ? 7 : 6;
+    this.drawRect(baseX + 131, baseY - 29, 2, 2, flicker);
+    this.drawRect(baseX + 130, baseY - 31, 1, 1, 6);
   }
 
   drawRect(x, y, w, h, colorIndex) {

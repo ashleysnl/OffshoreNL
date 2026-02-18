@@ -3,10 +3,14 @@ export class AudioSystem {
     this.enabled = true;
     this.ctx = null;
     this.master = null;
+    this.themeTimer = null;
+    this.themeStep = 0;
+    this.themeBpm = 132;
   }
 
   setEnabled(enabled) {
     this.enabled = Boolean(enabled);
+    if (!this.enabled) this.stopTheme();
   }
 
   ensureContext() {
@@ -63,8 +67,59 @@ export class AudioSystem {
     }
 
     if (name === 'gameover') {
+      this.stopTheme();
       this.tone(420, 0.18, 'triangle', 0.09, -140);
       setTimeout(() => this.tone(280, 0.24, 'triangle', 0.08, -90), 150);
     }
+  }
+
+  midiToHz(midi) {
+    return 440 * Math.pow(2, (midi - 69) / 12);
+  }
+
+  playThemeStep(step) {
+    const lead = [72, 74, 76, 79, 76, 74, 72, 69, 67, 69, 71, 72, 71, 69, 67, 64];
+    const bass = [40, 40, 43, 43, 36, 36, 38, 38, 40, 40, 43, 43, 35, 35, 38, 38];
+
+    const leadNote = lead[step % lead.length];
+    const bassNote = bass[step % bass.length];
+
+    this.tone(this.midiToHz(leadNote), 0.11, 'square', 0.04, -10);
+    if (step % 2 === 0) {
+      this.tone(this.midiToHz(bassNote), 0.18, 'triangle', 0.05, 4);
+    }
+
+    if (step % 4 === 2) {
+      this.tone(1400, 0.03, 'square', 0.015, -100);
+    }
+  }
+
+  startTheme() {
+    if (!this.enabled) return;
+    this.unlock();
+    if (!this.ctx || this.themeTimer) return;
+
+    const stepMs = (60_000 / this.themeBpm) / 2;
+    this.playThemeStep(this.themeStep);
+    this.themeTimer = setInterval(() => {
+      if (!this.enabled) return;
+      this.playThemeStep(this.themeStep);
+      this.themeStep = (this.themeStep + 1) % 64;
+    }, stepMs);
+  }
+
+  stopTheme() {
+    if (this.themeTimer) {
+      clearInterval(this.themeTimer);
+      this.themeTimer = null;
+    }
+  }
+
+  setThemePlaying(shouldPlay) {
+    if (!this.enabled || !shouldPlay) {
+      this.stopTheme();
+      return;
+    }
+    this.startTheme();
   }
 }

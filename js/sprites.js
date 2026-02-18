@@ -14,67 +14,116 @@ export const PALETTE = [
   '#7b7f87', // C gray steel
   '#a8acb5', // D light steel
   '#1f1f1f', // E black
-  '#ffd1e0'  // F pink accent
+  '#ffd1e0' // F pink accent
 ];
 
 export const SPRITES = {
-  rig: [
-    '....CCCCCCCCCCCC....',
-    '....CBBBBBBBBBBC....',
-    '....CBBBBBBBBBBC....',
-    '.CCCCCCCCCCCCCCCCCC.',
-    '.CBBBBBBBBBBBBBBBBC.',
-    '.CBBBBBBBBBBBBBBBBC.',
-    '.CBBBBCC..CCBBBBBBC.',
-    '.CBBBBCC..CCBBBBBBC.',
-    '.CBBBBBBBBBBBBBBBBC.',
-    '.CCCCCCCCCCCCCCCCCC.',
-    '..C....C....C....C..',
-    '..C....C....C....C..',
-    '..C....C....C....C..',
-    '..C....C....C....C..',
-    '..C....C....C....C..',
-    '.CCCC..CCCC..CCCCCC.'
+  rigDeck: [
+    '..DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD..',
+    '.DCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCD.',
+    '.DCCCCCCDDDDCCCCCCDDDDCCCCCCDDDDCCCCCCCCCCD.',
+    '.DCCDDDCCCCCDDDCCCCCDDDCCCCCDDDCCCCCDDDCCCD.',
+    '.DCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCD.',
+    '.DCCDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDCCD.',
+    '.DCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCD.',
+    '..DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD..'
+  ],
+  rigTower: [
+    '.....DDDDDD.....',
+    '....DCCCCCCD....',
+    '...DCCCCCCCCD...',
+    '...DCCCDDDCCD...',
+    '..DCCCCDDCCCCD..',
+    '..DCCCDDDDDCCD..',
+    '.DCCCCCCCCCCCCD.',
+    '.DCCCDCCCCDCCCD.',
+    '.DCCCCDCCDCCCCD.',
+    '.DCCCDCCCCDCCCD.',
+    '.DCCCCCCCCCCCCD.',
+    '..DDDDDDDDDDDD..'
+  ],
+  rigLeg: [
+    '.CCCCCCCC.',
+    '.CDDDDDDC.',
+    '.CDCCCCDC.',
+    '.CDCCCCDC.',
+    '.CDDDDDDC.',
+    '.CDCCCCDC.',
+    '.CDCCCCDC.',
+    '.CDDDDDDC.',
+    '.CDCCCCDC.',
+    '.CDCCCCDC.',
+    '.CDDDDDDC.',
+    '.CCCCCCCC.'
+  ],
+  rigCraneArm: [
+    '66................................',
+    '.66...............................',
+    '..66..............................',
+    '...66.............................',
+    '....66............................',
+    '.....66...........................',
+    '......66..........................',
+    '.......66.........................',
+    '........66........................',
+    '.........66.......................',
+    '..........66......................',
+    '...........66.....................',
+    '............66....................',
+    '.............66...................',
+    '..............66..................',
+    '...............66.................'
+  ],
+  rigFlare: [
+    '..CC..',
+    '.CCCC.',
+    'CC77CC',
+    '.7887.',
+    '..88..',
+    '..77..'
   ],
   puffinA: [
-    '..EE....',
-    '.E55E...',
-    'E5FF5E..',
-    'E55557E.',
-    '.E5EE7E.',
-    '..E..E..'
+    '...EE......',
+    '..E55E.....',
+    '.E5555EE...',
+    'E555FF57E..',
+    'E55FFFF77E.',
+    '.E5FFFF7E..',
+    '..E5EE7E...',
+    '.E55E.EE...',
+    'E5E...EE...',
+    '.E.....E...'
   ],
   puffinB: [
-    '..EE....',
-    '.E55E...',
-    'E5FF5E..',
-    'E55557E.',
-    '.EE5E7E.',
-    '.E...E..'
+    '...EE......',
+    '..E55E.....',
+    '.E5555EE...',
+    'E555FF57E..',
+    'E55FFFF77E.',
+    '.E5FFFF7E..',
+    '..EE55E....',
+    '.E5E..EE...',
+    'EE....E....',
+    '.E....E....'
   ],
   iceberg: [
-    '....5555....',
-    '..55555555..',
-    '.5555445555.',
-    '555544444555',
-    '554444444455',
-    '.5555555555.'
+    '.....55555.....',
+    '...555555555...',
+    '..55555555555..',
+    '.5555544455555.',
+    '555544444445555',
+    '555444444444455',
+    '.5555555555555.',
+    '..55555555555..'
   ],
-  warning: [
-    '..88..',
-    '.8888.',
-    '.8888.',
-    '..88..',
-    '..88..',
-    '..00..'
-  ],
+  warning: ['..88..', '.8888.', '.8888.', '..88..', '..88..', '..00..'],
   helicopter: [
-    '...CCCCCC....',
-    '.CCCCCCCCCC..',
-    'CCCCCC..CCCC.',
-    '..CC....CC...',
-    '..C......C...',
-    '.EEE....EEE..'
+    '....CCCCCCC.....',
+    '..CCCCCCCCCCCC...',
+    '.CCCCCCC..CCCCC.',
+    '.....CC...CC....',
+    '.....C.....C....',
+    '..EEE.......EEE.'
   ],
   waveTile: [
     '1222212222122221',

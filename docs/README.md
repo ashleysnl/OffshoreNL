@@ -10,6 +10,7 @@ A static, retro pixel-arcade browser game built with HTML, CSS, and vanilla Java
 Notes:
 - Everything is generated in code (Canvas + WebAudio).
 - No external assets, no bundlers, no Node.js.
+- Includes procedural retro theme music (WebAudio synthesis).
 
 ## Controls
 - **Start Shift**: begin a new run.
@@ -65,6 +66,10 @@ Use **Reset Data** to clear saved values.
 ### Game loads but buttons do nothing
 - Click once anywhere to unlock audio context on mobile/some browsers.
 - Ensure JavaScript is enabled.
+
+### iOS has no sound at first
+- iOS requires a user gesture before audio starts.
+- Press **Start Shift** or tap any button once to unlock sound/music.
 
 ### Changes not appearing after redeploy
 - Browser cache can serve older files; force refresh.
